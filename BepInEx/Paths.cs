@@ -34,7 +34,7 @@ namespace BepInEx
 			DllSearchPaths = (dllSearchPath ?? new string[0]).Concat(new[] { ManagedPath }).Distinct().ToArray();
 		}
 
-		private static string GetEnv(string variable) => Environment.GetEnvironmentVariable(variable);
+		private static string GetEnv(string variable) => System.Environment.GetEnvironmentVariable(variable);
 
 		internal static void LogPaths() {
 			Logger.Log(LogLevel.Debug, $"ExecutablePath: {ExecutablePath}");
