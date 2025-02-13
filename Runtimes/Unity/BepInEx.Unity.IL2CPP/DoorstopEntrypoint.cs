@@ -25,8 +25,6 @@ internal static class Entrypoint
 
         try
         {
-            EnvVars.LoadVars();
-
             silentExceptionLog =
                 Path.Combine(Path.GetDirectoryName(EnvVars.DOORSTOP_PROCESS_PATH), silentExceptionLog);
 

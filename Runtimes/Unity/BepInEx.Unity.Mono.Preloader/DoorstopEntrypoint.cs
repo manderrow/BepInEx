@@ -18,8 +18,6 @@ internal static class Entrypoint
 
         try
         {
-            EnvVars.LoadVars();
-
             var gamePath = Path.GetDirectoryName(EnvVars.DOORSTOP_PROCESS_PATH) ?? ".";
             silentExceptionLog = Path.Combine(gamePath, silentExceptionLog);
 
