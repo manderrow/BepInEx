@@ -30,7 +30,9 @@ namespace BepInEx
 			BepInExAssemblyPath = Path.Combine(BepInExAssemblyDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.dll");
 			CachePath = Path.Combine(BepInExRootPath, "cache");
 			DllSearchPaths = (dllSearchPath ?? new string[0]).Concat(new[] { ManagedPath }).Distinct().ToArray();
+		}
 
+		internal static void LogPaths() {
 			Logger.Log(LogLevel.Debug, $"ExecutablePath: {ExecutablePath}");
 			Logger.Log(LogLevel.Debug, $"GameRootPath: {GameRootPath}");
 			Logger.Log(LogLevel.Debug, $"ManagedPath: {ManagedPath}");

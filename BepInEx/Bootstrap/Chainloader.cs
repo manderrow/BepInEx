@@ -146,6 +146,8 @@ namespace BepInEx.Bootstrap
 
 			Logger.LogMessage("Chainloader ready");
 
+			Paths.LogPaths();
+
 			_initialized = true;
 		}
 		
