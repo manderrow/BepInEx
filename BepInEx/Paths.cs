@@ -21,16 +21,20 @@ namespace BepInEx
 				: Path.GetDirectoryName(executablePath);
 
 			ManagedPath = managedPath ?? Utility.CombinePaths(GameRootPath, $"{ProcessName}_Data", "Managed");
+
 			BepInExRootPath = bepinRootPath ?? Path.Combine(GameRootPath, "BepInEx");
-			ConfigPath = Path.Combine(BepInExRootPath, "config");
-			BepInExConfigPath = Path.Combine(ConfigPath, "BepInEx.cfg");
-			PluginPath = Path.Combine(BepInExRootPath, "plugins");
-			PatcherPluginPath = Path.Combine(BepInExRootPath, "patchers");
+			ConfigPath = GetEnv("BEPINEX_CONFIGS") ?? Path.Combine(BepInExRootPath, "config");
+			BepInExConfigPath = GetEnv("BEPINEX_CONFIG_PATH") ?? Path.Combine(ConfigPath, "BepInEx.cfg");
+			PluginPath = GetEnv("BEPINEX_PLUGINS") ?? Path.Combine(BepInExRootPath, "plugins");
+			PatcherPluginPath = GetEnv("BEPINEX_PATCHER_PLUGINS") ?? Path.Combine(BepInExRootPath, "patchers");
 			BepInExAssemblyDirectory = Path.Combine(BepInExRootPath, "core");
 			BepInExAssemblyPath = Path.Combine(BepInExAssemblyDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.dll");
-			CachePath = Path.Combine(BepInExRootPath, "cache");
+			CachePath = GetEnv("BEPINEX_CACHE") ?? Path.Combine(BepInExRootPath, "cache");
+
 			DllSearchPaths = (dllSearchPath ?? new string[0]).Concat(new[] { ManagedPath }).Distinct().ToArray();
 		}
+
+		private static string GetEnv(string variable) => Environment.GetEnvironmentVariable(variable);
 
 		internal static void LogPaths() {
 			Logger.Log(LogLevel.Debug, $"ExecutablePath: {ExecutablePath}");
