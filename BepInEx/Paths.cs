@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
+using BepInEx.Logging;
 using MonoMod.Utils;
 
 namespace BepInEx
@@ -29,6 +30,19 @@ namespace BepInEx
 			BepInExAssemblyPath = Path.Combine(BepInExAssemblyDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.dll");
 			CachePath = Path.Combine(BepInExRootPath, "cache");
 			DllSearchPaths = (dllSearchPath ?? new string[0]).Concat(new[] { ManagedPath }).Distinct().ToArray();
+
+			Logger.Log(LogLevel.Debug, $"ExecutablePath: {ExecutablePath}");
+			Logger.Log(LogLevel.Debug, $"GameRootPath: {GameRootPath}");
+			Logger.Log(LogLevel.Debug, $"ManagedPath: {ManagedPath}");
+			Logger.Log(LogLevel.Debug, $"BepInExRootPath: {BepInExRootPath}");
+			Logger.Log(LogLevel.Debug, $"ConfigPath: {ConfigPath}");
+			Logger.Log(LogLevel.Debug, $"BepInExConfigPath: {BepInExConfigPath}");
+			Logger.Log(LogLevel.Debug, $"PluginPath: {PluginPath}");
+			Logger.Log(LogLevel.Debug, $"PatcherPluginPath: {PatcherPluginPath}");
+			Logger.Log(LogLevel.Debug, $"BepInExAssemblyDirectory: {BepInExAssemblyDirectory}");
+			Logger.Log(LogLevel.Debug, $"BepInExAssemblyPath: {BepInExAssemblyPath}");
+			Logger.Log(LogLevel.Debug, $"CachePath: {CachePath}");
+			Logger.Log(LogLevel.Debug, $"DllSearchPaths: {string.Join(", ", DllSearchPaths)}");
 		}
 
 		internal static void SetManagedPath(string managedPath)
