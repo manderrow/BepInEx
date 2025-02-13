@@ -36,6 +36,10 @@ jobs:
                     branch: master
                     workflow_id: build.yml
                     github_token: ${{ secrets.GITHUB_TOKEN }}
+            -   uses: awalsh128/cache-apt-pkgs-action@latest
+                with:
+                    packages: b3sum
+                    version: 1.0
             -   uses: actions/setup-dotnet@v4
                 with:
                     dotnet-version: "8.0.x"
@@ -75,13 +79,14 @@ jobs:
                         }
             -   name: Hash Artifacts
                 run: |
-                    sha256sum ./bin/dist/*.zip > ./bin/dist/hashes.txt
-                    cat ./bin/dist/hashes.txt
+                    sha256sum ./bin/dist/*.zip > ./bin/dist/hashes.sha256
+                    b3sum ./bin/dist/*.zip > ./bin/dist/hashes.blake3
             -   name: Upload Artifacts
                 uses: actions/upload-artifact@v4
                 with:
                     path: |
                         ./bin/dist/*.zip
-                        ./bin/dist/hashes.txt
+                        ./bin/dist/hashes.sha256
+                        ./bin/dist/hashes.blake3
                     name: "BepInEx_CI_${{ steps.info.outputs.build_type }}_${{ steps.info.outputs.sha_short }}_${{ steps.info.outputs.build_id || 0 }}"
       
