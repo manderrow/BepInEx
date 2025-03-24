@@ -121,7 +121,7 @@ namespace BepInEx.Patcher
 						{
 							//can't use anything
 							unity.Dispose();
-							message += "\r\nThe backup is not usable.";
+							message += "\nThe backup is not usable.";
 							return false;
 						}
 					}
@@ -129,7 +129,7 @@ namespace BepInEx.Patcher
 					{
 						//can't use anything
 						unity.Dispose();
-						message += "\r\nNo backup exists.";
+						message += "\nNo backup exists.";
 						return false;
 					}
 				}
@@ -195,7 +195,7 @@ namespace BepInEx.Patcher
 			{
 				canPatch = false;
 
-				message += "This assembly has already been patched by BepInEx.\r\n";
+				message += "This assembly has already been patched by BepInEx.\n";
 			}
 
 			message = message.Trim();

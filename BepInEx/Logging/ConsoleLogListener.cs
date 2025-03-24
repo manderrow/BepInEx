@@ -4,12 +4,12 @@ using BepInEx.Configuration;
 namespace BepInEx.Logging
 {
 	/// <summary>
-	/// Logs entries using Unity specific outputs.
+	/// Logs entries to a console.
 	/// </summary>
 	public class ConsoleLogListener : ILogListener
 	{
 		internal bool WriteUnityLogs { get; set; } = true;
-		
+
 		/// <inheritdoc />
 		public void LogEvent(object sender, LogEventArgs eventArgs)
 		{
@@ -17,7 +17,7 @@ namespace BepInEx.Logging
 				return;
 			if ((eventArgs.Level & ConfigConsoleDisplayedLevel.Value) == 0)
 				return;
-			
+
 			ConsoleManager.SetConsoleColor(eventArgs.Level.GetConsoleColor());
 			ConsoleManager.ConsoleStream?.Write(eventArgs.ToStringLine());
 			ConsoleManager.SetConsoleColor(ConsoleColor.Gray);

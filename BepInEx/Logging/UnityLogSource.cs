@@ -50,7 +50,7 @@ namespace BepInEx.Logging
 		{
 			var callback = new Application.LogCallback(OnUnityLogMessageReceived);
 
-			EventInfo logEvent = typeof(Application).GetEvent("logMessageReceived", BindingFlags.Public | BindingFlags.Static);
+			EventInfo logEvent = typeof(Application).GetEvent("logMessageReceivedThreaded", BindingFlags.Public | BindingFlags.Static);
 			if (logEvent != null)
 			{
 				logEvent.AddEventHandler(null, callback);
@@ -86,7 +86,7 @@ namespace BepInEx.Logging
 
 			if (type == LogType.Exception)
 				message += $"\nStack trace:\n{stackTrace}";
-			
+
 			InternalUnityLogMessage?.Invoke(null, new LogEventArgs(message, logLevel, null));
 		}
 

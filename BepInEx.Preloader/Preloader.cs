@@ -46,7 +46,7 @@ namespace BepInEx.Preloader
 
 				Logger.InitializeInternalLoggers();
 				Logger.Sources.Add(TraceLogSource.CreateSource());
-				
+
 				PreloaderLog = new PreloaderConsoleListener();
 				Logger.Listeners.Add(PreloaderLog);
 
@@ -123,8 +123,8 @@ namespace BepInEx.Preloader
 				{
 					// We could use platform-dependent newlines, however the developers use Windows so this will be easier to read :)
 
-					log = string.Join("\r\n", PreloaderConsoleListener.LogEvents.Select(x => x.ToString()).ToArray());
-					log += "\r\n";
+					log = string.Join("\n", PreloaderConsoleListener.LogEvents.Select(x => x.ToString()).ToArray());
+					log += "\n";
 
 					PreloaderLog?.Dispose();
 					PreloaderLog = null;

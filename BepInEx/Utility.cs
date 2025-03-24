@@ -23,7 +23,7 @@ namespace BepInEx
 		public static bool CLRSupportsDynamicAssemblies => CheckSRE();
 
 		/// <summary>
-		///	An encoding for UTF-8 which does not emit a byte order mark (BOM). 
+		///	An encoding for UTF-8 which does not emit a byte order mark (BOM).
 		/// </summary>
 		public static Encoding UTF8NoBom { get; } = new UTF8Encoding(false);
 
@@ -31,7 +31,7 @@ namespace BepInEx
 		{
 			if (sreEnabled.HasValue)
 				return sreEnabled.Value;
-			
+
 			try
 			{
 				// ReSharper disable once AssignNullToNotNullAttribute
@@ -144,8 +144,8 @@ namespace BepInEx
 				Stack<TNode> currentStack = new Stack<TNode>();
 				if (!Visit(input, currentStack))
 				{
-					throw new Exception("Cyclic Dependency:\r\n" + currentStack.Select(x => $" - {x}") //append dashes
-																			   .Aggregate((a, b) => $"{a}\r\n{b}")); //add new lines inbetween
+					throw new Exception("Cyclic Dependency:\n" + currentStack.Select(x => $" - {x}") //append dashes
+																			   .Aggregate((a, b) => $"{a}\n{b}")); //add new lines inbetween
 				}
 			}
 

@@ -10,7 +10,7 @@ namespace BepInEx.Preloader
 	public class PreloaderConsoleListener : ILogListener
 	{
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		public static List<LogEventArgs> LogEvents { get; } = new List<LogEventArgs>();
 
@@ -19,13 +19,13 @@ namespace BepInEx.Preloader
 		{
 			if ((eventArgs.Level & ConfigConsoleDisplayedLevel.Value) == 0)
 				return;
-			
+
 			LogEvents.Add(eventArgs);
 		}
-		
+
 		private static readonly ConfigEntry<LogLevel> ConfigConsoleDisplayedLevel = ConfigFile.CoreConfig.Bind(
 			"Logging.Console","LogLevels",
-			LogLevel.Fatal | LogLevel.Error | LogLevel.Message | LogLevel.Info | LogLevel.Warning,
+			LogLevel.All,
 			"Which log levels to show in the console output.");
 
 		/// <inheritdoc />
