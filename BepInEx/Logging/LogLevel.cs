@@ -115,10 +115,9 @@ namespace BepInEx.Logging
 				case LogLevel.Message:
 					return "msg";
 				case LogLevel.Info:
-                    return "info";
-                case LogLevel.None:
-                    return "none";
+					return "info";
 				case LogLevel.Debug:
+				default:
 					return "debug";
 			}
 		}
