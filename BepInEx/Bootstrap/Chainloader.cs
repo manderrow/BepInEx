@@ -1,4 +1,4 @@
-﻿using BepInEx.Configuration;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using System;
 using System.Collections.Generic;
@@ -118,7 +118,7 @@ namespace BepInEx.Bootstrap
 
 			Logger.InitializeInternalLoggers();
 
-			if (StandardLogListener.ConfigEnabled.Value)
+			if (StandardLogListener.Enabled)
 				Logger.Listeners.Add(new StandardLogListener());
 
 			if (ConfigDiskLogging.Value)

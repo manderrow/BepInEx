@@ -15,23 +15,15 @@ namespace BepInEx.Logging
 		{
 			if (!WriteUnityLogs && sender is UnityLogSource)
 				return;
-			if ((eventArgs.Level & ConfigDisplayedLevel.Value) == 0)
-				return;
 
-			Console.Error.WriteLine(eventArgs.ToString());
+			Console.Error.WriteLine($"{eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
 		}
 
 		/// <inheritdoc />
 		public void Dispose() { }
 
-		private static readonly ConfigEntry<LogLevel> ConfigDisplayedLevel = ConfigFile.CoreConfig.Bind(
-			"Logging.Standard","LogLevels",
-			LogLevel.All,
-			"Which log levels to write to stderr.");
+		private static string GetEnv(string variable) => System.Environment.GetEnvironmentVariable(variable);
 
-		internal static readonly ConfigEntry<bool> ConfigEnabled = ConfigFile.CoreConfig.Bind(
-			"Logging.Standard", "Enabled",
-			true,
-			"Enables writing log messages to stderr.");
+		internal static readonly bool Enabled = GetEnv("BEPINEX_STANDARD_LOG") != null;
 	}
 }

@@ -99,5 +99,28 @@ namespace BepInEx.Logging
 					return ConsoleColor.DarkGray;
 			}
 		}
+
+		internal static string GetLowerName(this LogLevel level)
+		{
+			level = GetHighestLevel(level);
+
+			switch (level)
+			{
+				case LogLevel.Fatal:
+					return "fatal";
+				case LogLevel.Error:
+					return "err";
+				case LogLevel.Warning:
+					return "warn";
+				case LogLevel.Message:
+					return "msg";
+				case LogLevel.Info:
+                    return "info";
+                case LogLevel.None:
+                    return "none";
+				case LogLevel.Debug:
+					return "debug";
+			}
+		}
 	}
 }
