@@ -11,7 +11,7 @@ namespace BepInEx.Logging
 	public class UnityLogSource : ILogSource
 	{
 		/// <inheritdoc />
-		public string SourceName { get; } = "Unity Log";
+		public string SourceName { get; } = "Unity";
 
 		/// <inheritdoc />
 		public event EventHandler<LogEventArgs> LogEvent;
