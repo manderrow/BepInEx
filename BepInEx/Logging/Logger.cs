@@ -32,8 +32,11 @@ namespace BepInEx.Logging
 
 			Sources.Add(new HarmonyLogSource());
 
-			if (StandardLogListener.Enabled)
+			if (StandardLogListener.Enabled) {
 				Listeners.Add(new StandardLogListener());
+			} else {
+				Console.Error.WriteLine($"warn BepInEx standard log is disabled.");
+			}
 
 			internalLogsInitialized = true;
 		}
