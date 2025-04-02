@@ -21,11 +21,6 @@ namespace BepInEx.Preloader
 	/// </summary>
 	internal static class Preloader
 	{
-		/// <summary>
-		///     The log writer that is specific to the preloader.
-		/// </summary>
-		private static PreloaderConsoleListener PreloaderLog { get; set; }
-
 		public static bool IsPostUnity2017 { get; } = File.Exists(Path.Combine(Paths.ManagedPath, "UnityEngine.CoreModule.dll"));
 
 		public static void Run()
@@ -46,9 +41,6 @@ namespace BepInEx.Preloader
 
 				Logger.InitializeInternalLoggers();
 				Logger.Sources.Add(TraceLogSource.CreateSource());
-
-				PreloaderLog = new PreloaderConsoleListener();
-				Logger.Listeners.Add(PreloaderLog);
 
 				Version version = typeof(Paths).Assembly.GetName().Version;
 
@@ -96,10 +88,6 @@ namespace BepInEx.Preloader
 				AssemblyPatcher.DisposePatchers();
 
 				Logger.LogMessage("Preloader finished");
-
-				Logger.Listeners.Remove(PreloaderLog);
-
-				PreloaderLog.Dispose();
 			}
 			catch (Exception ex)
 			{
@@ -107,33 +95,8 @@ namespace BepInEx.Preloader
 				{
 					Logger.LogFatal("Could not run preloader!");
 					Logger.LogFatal(ex);
-
-					if (!ConsoleManager.ConsoleActive)
-					{
-						//if we've already attached the console, then the log will already be written to the console
-						AllocateConsole();
-						Console.Write(PreloaderLog);
-					}
 				}
 				catch { }
-
-				string log = string.Empty;
-
-				try
-				{
-					// We could use platform-dependent newlines, however the developers use Windows so this will be easier to read :)
-
-					log = string.Join("\n", PreloaderConsoleListener.LogEvents.Select(x => x.ToString()).ToArray());
-					log += "\n";
-
-					PreloaderLog?.Dispose();
-					PreloaderLog = null;
-				}
-				catch { }
-
-				File.WriteAllText(
-					Path.Combine(Paths.GameRootPath, $"preloader_{DateTime.Now:yyyyMMdd_HHmmss_fff}.log"),
-					log + ex);
 			}
 		}
 
