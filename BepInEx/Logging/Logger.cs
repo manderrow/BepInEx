@@ -32,6 +32,9 @@ namespace BepInEx.Logging
 
 			Sources.Add(new HarmonyLogSource());
 
+			if (StandardLogListener.Enabled)
+				Listeners.Add(new StandardLogListener());
+
 			internalLogsInitialized = true;
 		}
 

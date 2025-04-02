@@ -208,10 +208,6 @@ namespace BepInEx.Preloader
 					il.InsertBefore(ins,
 						il.Create(OpCodes.Ldc_I4_0)); //startConsole (always false, we already load the console in Preloader)
 
-					il.InsertBefore(ins,
-						il.Create(OpCodes.Call, assembly.MainModule.ImportReference(
-							AccessTools.PropertyGetter(typeof(PreloaderConsoleListener), nameof(PreloaderConsoleListener.LogEvents))))); // preloaderLogEvents (load from Preloader.PreloaderLog.LogEvents)
-
                     il.InsertBefore(ins,
 						il.Create(OpCodes.Call, initMethod)); // Chainloader.Initialize(string gamePath, string managedPath = null, bool startConsole = true)
 
