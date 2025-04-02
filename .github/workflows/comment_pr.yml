@@ -2,7 +2,7 @@ name: Comment on pull request
 
 on:
     workflow_run:
-        workflows: [ 'Build PR' ]
+        workflows: [ 'Build' ]
         types: [ completed ]
 
 jobs:
