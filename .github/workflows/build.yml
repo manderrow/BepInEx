@@ -90,3 +90,16 @@ jobs:
                       ./bin/dist/hashes.sha256
                       ./bin/dist/hashes.blake3
                   fail_on_unmatched_files: true
+            - name: Create CI release
+              if: github.ref == 'refs/heads/v5-lts'
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: |
+                      ./bin/dist/*.zip
+                      ./bin/dist/hashes.sha256
+                      ./bin/dist/hashes.blake3
+                  prerelease: true
+                  tag_name: ci
+                  name: "CI build"
+                  generate_release_notes: true
+                  fail_on_unmatched_files: true
