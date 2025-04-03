@@ -23,7 +23,22 @@ namespace BepInEx.Logging
 
 		private static readonly ManualLogSource InternalLogSource = CreateLogSource("BepInEx");
 
+		private static bool coreLogsInitialized;
 		private static bool internalLogsInitialized;
+
+		internal static void InitializeCoreLoggers()
+		{
+			if (coreLogsInitialized)
+				return;
+
+			if (StandardLogListener.Enabled) {
+				Listeners.Add(new StandardLogListener());
+			} else {
+				Console.Error.WriteLine($"warn BepInEx standard log is disabled.");
+			}
+
+			coreLogsInitialized = true;
+		}
 
 		internal static void InitializeInternalLoggers()
 		{
@@ -31,12 +46,6 @@ namespace BepInEx.Logging
 				return;
 
 			Sources.Add(new HarmonyLogSource());
-
-			if (StandardLogListener.Enabled) {
-				Listeners.Add(new StandardLogListener());
-			} else {
-				Console.Error.WriteLine($"warn BepInEx standard log is disabled.");
-			}
 
 			internalLogsInitialized = true;
 		}

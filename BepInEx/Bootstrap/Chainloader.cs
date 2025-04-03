@@ -99,6 +99,8 @@ namespace BepInEx.Bootstrap
 			if (_initialized)
 				return;
 
+			Logger.InitializeCoreLoggers();
+
 			ThreadingHelper.Initialize();
 
 			// Set vitals

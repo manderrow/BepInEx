@@ -27,8 +27,18 @@ namespace BepInEx.Preloader
 		{
 			try
 			{
+				Logger.InitializeCoreLoggers();
+
+				Version version = typeof(Paths).Assembly.GetName().Version;
+
+				string consoleTile = $"BepInEx {version} - {Paths.ProcessName}";
+
+				Logger.LogMessage($"{consoleTile} ({File.GetLastWriteTime(Paths.ExecutablePath)})");
+
 				InitializeHarmony();
 				HarmonyInteropFix.Apply();
+
+				Logger.InitializeInternalLoggers();
 
 				ConsoleManager.Initialize(false);
 				AllocateConsole();
@@ -39,17 +49,10 @@ namespace BepInEx.Preloader
 						UnityPatches.Apply();
 				}, out var runtimePatchException);
 
-				Logger.InitializeInternalLoggers();
 				Logger.Sources.Add(TraceLogSource.CreateSource());
-
-				Version version = typeof(Paths).Assembly.GetName().Version;
-
-				string consoleTile = $"BepInEx {version} - {Paths.ProcessName}";
 
 				if (ConsoleManager.ConsoleActive)
 					ConsoleManager.SetConsoleTitle(consoleTile);
-
-				Logger.LogMessage($"{consoleTile} ({File.GetLastWriteTime(Paths.ExecutablePath)})");
 
 				//See BuildInfoAttribute for more information about this section.
 				object[] attributes = typeof(BuildInfoAttribute).Assembly.GetCustomAttributes(typeof(BuildInfoAttribute), false);
@@ -171,7 +174,7 @@ namespace BepInEx.Preloader
 					il.InsertBefore(ins,
 						il.Create(OpCodes.Ldc_I4_0)); //startConsole (always false, we already load the console in Preloader)
 
-                    il.InsertBefore(ins,
+					il.InsertBefore(ins,
 						il.Create(OpCodes.Call, initMethod)); // Chainloader.Initialize(string gamePath, string managedPath = null, bool startConsole = true)
 
 					il.InsertBefore(ins,
