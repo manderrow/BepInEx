@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -31,14 +31,16 @@ namespace BepInEx.Preloader
 		{
 			foreach (string criticalAssembly in CriticalAssemblies)
 			{
+				Console.Error.WriteLine($"debug BepInEx Loading critical assembly {criticalAssembly}");
 				try
 				{
 					Assembly.LoadFile(Path.Combine(Paths.BepInExAssemblyDirectory, criticalAssembly));
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
 					// Suppress error for now
 					// TODO: Should we crash here if load fails? Can't use logging at this point
+					Console.Error.WriteLine($"err BepInEx Failed to load critical assembly: {ex}");
 				}
 			}
 		}
@@ -71,6 +73,8 @@ namespace BepInEx.Preloader
 
 		private static Assembly LocalResolve(object sender, ResolveEventArgs args)
 		{
+			Console.Error.WriteLine($"debug BepInEx Attempting local resolution of {args.Name}");
+
 			if (!Utility.TryParseAssemblyName(args.Name, out var assemblyName))
 				return null;
 
@@ -84,13 +88,13 @@ namespace BepInEx.Preloader
 										 .ToList();
 
 			// First try to match by version, then just pick the best match (generally highest)
-			// This should mainly affect cases where the game itself loads some assembly (like Mono.Cecil) 
+			// This should mainly affect cases where the game itself loads some assembly (like Mono.Cecil)
 			var foundMatch = validAssemblies.FirstOrDefault(a => a.name.Version == assemblyName.Version) ?? validAssemblies.FirstOrDefault();
 			var foundAssembly = foundMatch?.assembly;
 
 			if (foundAssembly != null)
 				return foundAssembly;
-			
+
 			if (Utility.TryResolveDllAssembly(assemblyName, Paths.BepInExAssemblyDirectory, out foundAssembly)
 				|| Utility.TryResolveDllAssembly(assemblyName, Paths.PatcherPluginPath, out foundAssembly)
 				|| Utility.TryResolveDllAssembly(assemblyName, Paths.PluginPath, out foundAssembly))
@@ -112,15 +116,13 @@ namespace Doorstop
 		/// </summary>
 		public static void Start()
 		{
-			// We set it to the current directory first as a fallback, but try to use the same location as the .exe file.
-			string silentExceptionLog = $"preloader_{DateTime.Now:yyyyMMdd_HHmmss_fff}.log";
+			Console.Error.WriteLine("info BepInEx Starting");
 
 			try
 			{
 				EnvVars.LoadVars();
 
 				string gamePath = Path.GetDirectoryName(EnvVars.DOORSTOP_PROCESS_PATH) ?? ".";
-				silentExceptionLog = Path.Combine(gamePath, silentExceptionLog);
 
 				// Get the path of this DLL via Doorstop env var because Assembly.Location mangles non-ASCII characters on some versions of Mono for unknown reasons
 				preloaderPath = Path.GetDirectoryName(Path.GetFullPath(EnvVars.DOORSTOP_INVOKE_DLL_PATH));
@@ -135,7 +137,7 @@ namespace Doorstop
 			}
 			catch (Exception ex)
 			{
-				File.WriteAllText(silentExceptionLog, ex.ToString());
+				Console.Error.WriteLine($"fatal BepInEx {ex}");
 			}
 			finally
 			{
