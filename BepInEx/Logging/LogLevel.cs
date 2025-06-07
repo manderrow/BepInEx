@@ -113,7 +113,6 @@ namespace BepInEx.Logging
 				case LogLevel.Warning:
 					return "warn";
 				case LogLevel.Message:
-					return "msg";
 				case LogLevel.Info:
 					return "info";
 				case LogLevel.Debug:
