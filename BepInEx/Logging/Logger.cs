@@ -12,9 +12,7 @@ namespace BepInEx.Logging
 		/// <summary>
 		/// Collection of all log listeners that receive log events.
 		/// </summary>
-		public static ICollection<ILogListener> Listeners => _Listeners;
-
-		private static readonly LogListenerCollection _Listeners = new LogListenerCollection();
+		public static ICollection<ILogListener> Listeners { get; } = new ThreadSafeCollection<ILogListener>();
 
 		/// <summary>
 		/// Collection of all log source that output log events.
@@ -23,22 +21,7 @@ namespace BepInEx.Logging
 
 		private static readonly ManualLogSource InternalLogSource = CreateLogSource("BepInEx");
 
-		private static bool coreLogsInitialized;
 		private static bool internalLogsInitialized;
-
-		internal static void InitializeCoreLoggers()
-		{
-			if (coreLogsInitialized)
-				return;
-
-			if (StandardLogListener.Enabled) {
-				Listeners.Add(new StandardLogListener());
-			} else {
-				Console.Error.WriteLine($"warn BepInEx standard log is disabled.");
-			}
-
-			coreLogsInitialized = true;
-		}
 
 		internal static void InitializeInternalLoggers()
 		{
@@ -52,8 +35,7 @@ namespace BepInEx.Logging
 
 		internal static void InternalLogEvent(object sender, LogEventArgs eventArgs)
 		{
-			Console.Error.Write($"debug BepInEx InternalLogEvent {eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
-			_Listeners.SendLogEvent(sender, eventArgs);
+			Console.Error.WriteLine($"{eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
 		}
 
 		/// <summary>
@@ -131,17 +113,6 @@ namespace BepInEx.Logging
 						item.LogEvent -= InternalLogEvent;
 					return wasPresent;
 				}
-			}
-		}
-
-		private sealed class LogListenerCollection : ThreadSafeCollection<ILogListener>
-		{
-			public void SendLogEvent(object sender, LogEventArgs eventArgs)
-			{
-				// Do this instead of foreach to avoid boxing, also very slightly faster
-				var aListInTime = BaseList;
-				for (int i = 0; i < aListInTime.Count; i++)
-					aListInTime[i].LogEvent(sender, eventArgs);
 			}
 		}
 

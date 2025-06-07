@@ -27,8 +27,6 @@ namespace BepInEx.Preloader
 		{
 			try
 			{
-				Logger.InitializeCoreLoggers();
-
 				Version version = typeof(Paths).Assembly.GetName().Version;
 
 				string consoleTile = $"BepInEx {version} - {Paths.ProcessName}";

@@ -99,8 +99,6 @@ namespace BepInEx.Bootstrap
 			if (_initialized)
 				return;
 
-			Logger.InitializeCoreLoggers();
-
 			ThreadingHelper.Initialize();
 
 			// Set vitals
@@ -111,32 +109,13 @@ namespace BepInEx.Bootstrap
 				Paths.SetExecutablePath(gameExePath);
 			}
 
-			// Start logging
-			if (ConsoleManager.ConsoleEnabled && startConsole)
-			{
-				ConsoleManager.CreateConsole();
-				Logger.Listeners.Add(new ConsoleLogListener());
-			}
-
 			Logger.InitializeInternalLoggers();
-
-			if (ConfigDiskLogging.Value)
-				Logger.Listeners.Add(new DiskLogListener("LogOutput.log", ConfigDiskConsoleDisplayedLevel.Value, ConfigDiskAppend.Value, ConfigDiskWriteUnityLog.Value));
 
 			if (!TraceLogSource.IsListening)
 				Logger.Sources.Add(TraceLogSource.CreateSource());
 
 			if (ConfigUnityLogging.Value)
 				Logger.Sources.Add(new UnityLogSource());
-
-			// // Don't write to Unity logs in headless mode since Unity logs are already shown in console
-			// if (!IsHeadless)
-			// 	Logger.Listeners.Add(new UnityLogListener());
-			// else
-			// {
-			// 	if (Logger.Listeners.FirstOrDefault(l => l is ConsoleLogListener) is ConsoleLogListener consoleLogListener)
-			// 		consoleLogListener.WriteUnityLogs = false;
-			// }
 
 			if (PlatformHelper.Is(Platform.Unix))
 			{
