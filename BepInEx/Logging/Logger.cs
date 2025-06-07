@@ -52,6 +52,7 @@ namespace BepInEx.Logging
 
 		internal static void InternalLogEvent(object sender, LogEventArgs eventArgs)
 		{
+			Console.Error.Write($"debug BepInEx InternalLogEvent {eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
 			_Listeners.SendLogEvent(sender, eventArgs);
 		}
 
