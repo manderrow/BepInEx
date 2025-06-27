@@ -102,6 +102,8 @@ namespace BepInEx.Bootstrap
 		/// <returns>A dictionary of all assemblies in the directory and the list of type metadatas of types that match the selector.</returns>
         public static Dictionary<string, List<T>> FindPluginTypes<T>(string directory, Func<TypeDefinition, T> typeSelector, Func<AssemblyDefinition, bool> assemblyFilter = null, string cacheName = null) where T : ICacheable, new()
 		{
+			Logger.LogDebug($"Searching {directory} for DLLs");
+
 			var result = new Dictionary<string, List<T>>();
 			Dictionary<string, CachedAssembly<T>> cache = null;
 
@@ -126,6 +128,7 @@ namespace BepInEx.Bootstrap
 
 					if (!assemblyFilter?.Invoke(ass) ?? false)
 					{
+						Logger.LogDebug($"Found {dll}: []");
 						result[dll] = new List<T>();
 						ass.Dispose();
 						continue;
