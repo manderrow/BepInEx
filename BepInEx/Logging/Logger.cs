@@ -23,6 +23,8 @@ namespace BepInEx.Logging
 
 		private static bool internalLogsInitialized;
 
+		private static System.IO.TextWriter Stderr;
+
 		internal static void InitializeInternalLoggers()
 		{
 			if (internalLogsInitialized)
@@ -35,7 +37,10 @@ namespace BepInEx.Logging
 
 		internal static void InternalLogEvent(object sender, LogEventArgs eventArgs)
 		{
-			Console.Error.WriteLine($"{eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
+			if (Stderr == null) {
+				Stderr = Console.Error;
+			}
+			Stderr.WriteLine($"{eventArgs.Level.GetLowerName()} {eventArgs.Source.SourceName} {eventArgs.Data}");
 		}
 
 		/// <summary>
