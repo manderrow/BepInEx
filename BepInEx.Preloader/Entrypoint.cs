@@ -31,7 +31,7 @@ namespace BepInEx.Preloader
 		{
 			foreach (string criticalAssembly in CriticalAssemblies)
 			{
-				Console.Error.WriteLine($"debug BepInEx Loading critical assembly {criticalAssembly}");
+				Logging.Stderr.WriteLine($"debug BepInEx Loading critical assembly {criticalAssembly}");
 				try
 				{
 					Assembly.LoadFile(Path.Combine(Paths.BepInExAssemblyDirectory, criticalAssembly));
@@ -40,7 +40,7 @@ namespace BepInEx.Preloader
 				{
 					// Suppress error for now
 					// TODO: Should we crash here if load fails? Can't use logging at this point
-					Console.Error.WriteLine($"err BepInEx Failed to load critical assembly: {ex}");
+					Logging.Stderr.WriteLine($"err BepInEx Failed to load critical assembly: {ex}");
 				}
 			}
 		}
@@ -73,7 +73,7 @@ namespace BepInEx.Preloader
 
 		private static Assembly LocalResolve(object sender, ResolveEventArgs args)
 		{
-			Console.Error.WriteLine($"debug BepInEx Attempting local resolution of {args.Name}");
+			Logging.Stderr.WriteLine($"debug BepInEx Attempting local resolution of {args.Name}");
 
 			if (!Utility.TryParseAssemblyName(args.Name, out var assemblyName))
 				return null;
@@ -116,7 +116,7 @@ namespace Doorstop
 		/// </summary>
 		public static void Start()
 		{
-			Console.Error.WriteLine("info BepInEx Starting");
+			Logging.Stderr.WriteLine("info BepInEx Starting");
 
 			try
 			{
@@ -137,7 +137,7 @@ namespace Doorstop
 			}
 			catch (Exception ex)
 			{
-				Console.Error.WriteLine($"fatal BepInEx {ex}");
+				Logging.Stderr.WriteLine($"fatal BepInEx {ex}");
 			}
 			finally
 			{
