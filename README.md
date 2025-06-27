@@ -3,8 +3,9 @@
 </p>
 
 # BepInEx
-![Github All Releases](https://img.shields.io/github/downloads/bepinex/bepinex/total.svg)
-![GitHub release](https://img.shields.io/github/release/bepinex/bepinex.svg)
+![Github All Releases](https://img.shields.io/github/downloads/manderrow/BepInEx/total.svg)
+![GitHub release](https://img.shields.io/github/release/manderrow/BepInEx?include_prereleases.svg)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/manderrow/BepInEx/build.yml?branch=master)](https://github.com/manderrow/BepInEx/actions/workflows/build.yml)
 [![BepInEx Discord](https://user-images.githubusercontent.com/7288322/34429117-c74dbd12-ecb8-11e7-896d-46369cd0de5b.png)](https://discord.gg/MpFEDAg)
 
 Bepis Injector Extensible
