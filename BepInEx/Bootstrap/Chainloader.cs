@@ -96,8 +96,12 @@ namespace BepInEx.Bootstrap
 		/// </summary>
 		public static void Initialize(string gameExePath, bool startConsole = true)
 		{
-			if (_initialized)
+			if (_initialized) {
+				Logger.LogWarning("Chainloader.Initialize called more than once!");
 				return;
+			}
+
+			Logger.LogInfo("Initializing Chainloader...");
 
 			ThreadingHelper.Initialize();
 
@@ -224,11 +228,15 @@ namespace BepInEx.Bootstrap
 		/// </summary>
 		public static void Start()
 		{
-			if (_loaded)
+			if (_loaded) {
+				Logger.LogWarning("Chainloader.Start called more than once!");
 				return;
+			}
 
 			if (!_initialized)
 				throw new InvalidOperationException("BepInEx has not been initialized. Please call Chainloader.Initialize prior to starting the chainloader instance.");
+
+			Logger.LogInfo("Starting Chainloader...");
 
 			if (!Directory.Exists(Paths.PluginPath))
 				Directory.CreateDirectory(Paths.PluginPath);
