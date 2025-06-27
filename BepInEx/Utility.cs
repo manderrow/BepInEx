@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using BepInEx.Logging;
 using Mono.Cecil;
 using MonoMod.Utils;
 
@@ -199,10 +200,12 @@ namespace BepInEx
 
 				try
 				{
+					Logger.LogDebug($"Loading {path}");
 					assembly = loader(path);
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
+					Logger.LogError($"Failed to load {path}: {e}");
 					continue;
 				}
 
