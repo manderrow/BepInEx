@@ -109,7 +109,7 @@ Task("MakeDist")
                         .WithToken("commit_log", RunGit($"--no-pager log --no-merges --pretty=\"format:* (%h) [%an] %s\" {latestTag}..HEAD", "\r\n"))
                         .ToString();
 
-    void PackageBepin(string os, string arch, string copyPattern)
+    void PackageBepin(string os, string arch)
     {
         var distArchDir = distDir + Directory($"{os}_{arch}");
         var bepinDir = distArchDir + Directory("BepInEx");
