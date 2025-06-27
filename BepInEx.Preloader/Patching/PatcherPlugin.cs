@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using BepInEx.Bootstrap;
@@ -46,5 +46,8 @@ namespace BepInEx.Preloader.Patching
 		{
 			TypeName = br.ReadString();
 		}
+
+		/// <inheritdoc />
+		public override string ToString() => TypeName;
 	}
 }

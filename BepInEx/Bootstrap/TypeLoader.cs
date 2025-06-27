@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -116,6 +116,7 @@ namespace BepInEx.Bootstrap
 						long lastWrite = File.GetLastWriteTimeUtc(dll).Ticks;
 						if (lastWrite == cacheEntry.Timestamp)
 						{
+							Logger.LogDebug($"Found {dll} (cached): {cacheEntry.CacheItems}");
 							result[dll] = cacheEntry.CacheItems;
 							continue;
 						}
@@ -131,6 +132,7 @@ namespace BepInEx.Bootstrap
 					}
 
 					var matches = ass.MainModule.Types.Select(typeSelector).Where(t => t != null).ToList();
+					Logger.LogDebug($"Found {dll}: {matches}");
 					result[dll] = matches;
 					ass.Dispose();
 				}
